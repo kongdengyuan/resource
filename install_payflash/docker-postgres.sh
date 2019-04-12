@@ -39,7 +39,7 @@ if [ $? -eq 0 ];then
   echo -e  "${IGreen}Docker_CE 18.06 already install and begin to install postgres $Color_Off"
   install_postgres
 else 
-  install_docker && install_postgres
+  install_docker && install_postgres && install_postgres_client
 fi
 
 }
@@ -69,5 +69,18 @@ else
   echo -e "IRed START postgres Failed $Color_Off"      
 fi
  }
+install_postgres_client(){
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+apt-get update
+apt-get install postgresql-client-11 -y
 
+if [ $? -eq 0 ]; then
+
+  echo -e "${IGreen}Install postgres client success $Color_Off"
+else
+  echo -e "I{Red}Install postgres client Failed $Color_Off"
+fi
+
+}
 check_docker
