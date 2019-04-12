@@ -36,7 +36,7 @@ check_docker() {
 RET=`docker -v &>/dev/null`
 
 if [ $? -eq 0 ];then 
-  echo -e  "$IGreen Docker_CE 18.06 already install and begin to install postgres $Color_Off"
+  echo -e  "${IGreen}Docker_CE 18.06 already install and begin to install postgres $Color_Off"
   install_postgres
 else 
   install_docker && install_postgres
@@ -56,6 +56,8 @@ docker run -d --name $NAME \
 -p $PORT:5432 \
 -v $DATA_DIR:/var/lib/postgresql/data \
 -e POSTGRES_PASSWORD=$PASSWD $IMAGE_NAME
+
+sleep 2
 
 sed -i '86s@127.0.0.1/32@0.0.0.0/0@' $DATA_DIR/pg_hba.conf
 docker restart $NAME
