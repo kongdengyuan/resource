@@ -56,7 +56,7 @@ docker run -d --name $NAME \
 -v $DATA_DIR:/var/lib/postgresql/data \
 -e POSTGRES_PASSWORD=$PASSWD $IMAGE_NAME
 
-sed -i '86s@127.0.0.1/32@0.0.0.0/0@' pg_hba.conf
+sed -i '86s@127.0.0.1/32@0.0.0.0/0@' $DATA_DIR/pg_hba.conf
 docker restart $NAME
 
 if [ $? -eq 0 ]; then 
