@@ -6,7 +6,7 @@ Color_Off='\e[0m';
 # ---- High Intensity ----
 Red='\e[0;91m';  Green='\e[0;92m';
 
-SCRIPT_DIR=`dirname $0`
+SCRIPT_DIR=$(cd "$(dirname $0)"; pwd)
 CODE_DIR=/deploy/PayFlash
 SQL="psql -h localhost -U postgres"
 
