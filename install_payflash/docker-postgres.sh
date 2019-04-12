@@ -49,7 +49,8 @@ NAME=postgres
 DATA_DIR=/pgdata
 PORT=5432
 PASSWD=Initial0
-IMAGE_NAME=registry.kkops.cc/postgres:v1 
+#IMAGE_NAME=registry.kkops.cc/postgres:v1 
+IMAGE_NAME=postgres:11.2
 
 docker run -d --name $NAME \
 -p $PORT:5432 \
