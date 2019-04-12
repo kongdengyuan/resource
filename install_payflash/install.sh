@@ -32,9 +32,9 @@ $SQL -c 'create schema "BYD"'
 
 cd $CODE_DIR/payment-manager 
 
-./setup_x4_service.sh 
-
 cp $SCRIPT_DIR/HtmlPane.js /deploy/x4/ui/client/resources/sap/b/controls/panes
+
+./setup_x4_service.sh 
 
 sed -i '35s#start#start >/var/log/payment/x4.log \&#' start_x4_service.sh
 
@@ -47,9 +47,13 @@ checkRetVal
 # Install payment service
 # Copy template java
 cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
+
 cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
+
 cd $CODE_DIR/payment-service
+
 $SQL  -c 'drop table "BYD"."pfPayment"'
+
 $SQL   --set ON_ERROR_STOP=ON -f  dbInit_PostgreSQL.sql 
 
 checkRetVal
@@ -57,7 +61,9 @@ checkRetVal
 #Install payment frontend
 
 cd  $CODE_DIR/payment-frontend
+
 npm install 
+
 $SQL -c "\copy \"BYD\".\"ilab/paymentmgmt/PaymentAccount\" from '$SCRIPT_DIR/pay_account_data'"
 
 checkRetVal
