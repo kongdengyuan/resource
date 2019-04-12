@@ -61,7 +61,7 @@ docker restart $NAME
 
 if [ $? -eq 0 ]; then 
 
-  echo -e "$IGreen START postgres success $Color_Off"
+  echo -e "${IGreen}START postgres success $Color_Off"
 else 
   echo -e "IRed START postgres Failed $Color_Off"      
 fi
