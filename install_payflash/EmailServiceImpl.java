@@ -121,10 +121,10 @@ public class EmailServiceImpl implements EmailService{
     private SMTP getDefaultSMTP(){
         SMTP smtp = new SMTP();
         smtp.setSecurtiyLevel("SSL");
-        smtp.setServer("smtp.qq.com");
+        smtp.setServer("email-smtp.eu-west-1.amazonaws.com");
         smtp.setPort(465);
-        smtp.setUserName("1105257980@qq.com");
-        smtp.setPassword("faocktiolpdrbagf");
+        smtp.setUserName("AKIA32RQNNLMD6JV2ZJK");
+        smtp.setPassword("BL622q1XuVpkDeF64O9STi8bjhKTF38YEFrttEBSfMS/");
         return smtp;
     }
 
