@@ -57,7 +57,7 @@ sap.ui.define([
 
 				oRm.write('<div id="myHtmlPane" class="myHtmlPane" ');
 				oRm.write('>');
-				oRm.write('<iframe id="CustomizationFrame" src="https://pay.kkops.cc/payment/sample" name="CustomizationFrame" width="95%" height="850">');
+				oRm.write('<iframe id="CustomizationFrame" src="https://payflash.kkops.cc/payment/sample" name="CustomizationFrame" width="95%" height="850">');
 				oRm.write('</iframe>');
 				oRm.write("</div>");
 			}
