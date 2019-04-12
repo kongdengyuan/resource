@@ -33,7 +33,7 @@ sudo apt-get install docker-ce=18.06.3~ce~3-0~ubuntu -y
 }
 
 check_docker() {
-RET=`docker -v`
+RET=`docker -v &>/dev/null`
 
 if [ $? -eq 0 ];then 
   echo -e  "$IGreen Docker_CE 18.06 already install and begin to install postgres $Color_Off"
