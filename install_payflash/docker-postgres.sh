@@ -26,8 +26,8 @@ sudo add-apt-repository \
    $(lsb_release -cs) \
    stable"
 
-sudo apt-get update
-
+sudo apt-get update 
+# apt-cache madison docker-ce  # find docker-ce version 
 sudo apt-get install docker-ce=18.06.3~ce~3-0~ubuntu -y
 
 }
