@@ -13,7 +13,7 @@ SQL="psql -h localhost -U postgres"
 ## Install dependency package
 
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-apt-get install -y nodejs  maven  openjdk-8-jdk 
+apt-get install -y nodejs  maven  openjdk-8-jdk build-essential
 npm install -g @angular/cli  ## for angular ui  
 
 checkRetVal () {
@@ -46,7 +46,7 @@ checkRetVal
 
 # Install payment service
 # Copy template java
-cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
+#cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
 cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
