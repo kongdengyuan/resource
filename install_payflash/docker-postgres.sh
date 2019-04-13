@@ -33,10 +33,10 @@ sudo apt-get install docker-ce=5:18.09.5~3-0~ubuntu-xenial -y
 }
 
 check_docker() {
-RET=`docker -v &>/dev/null`
+RET=`docker -v | grep "18.09" &>/dev/null`
 
 if [ $? -eq 0 ];then 
-  echo -e  "${IGreen}Docker_CE 18.06 already install and begin to install postgres $Color_Off"
+  echo -e  "${IGreen}Docker_CE 18.09 already install and begin to install postgres $Color_Off"
   install_postgres
 else 
   install_docker && install_postgres && install_postgres_client
