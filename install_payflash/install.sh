@@ -59,6 +59,8 @@ $SQL  -c 'drop table "BYD"."pfPayment"'
 
 $SQL   --set ON_ERROR_STOP=ON -f  dbInit_PostgreSQL.sql 
 
+mvn package 
+
 checkRetVal
 
 #Install payment frontend
