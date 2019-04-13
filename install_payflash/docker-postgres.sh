@@ -48,7 +48,7 @@ install_postgres(){
 NAME=postgres
 DATA_DIR=/pgdata
 PORT=5432
-PASSWD=Initial0
+PASSWD=abcd1234
 #IMAGE_NAME=registry.kkops.cc/postgres:v1 
 IMAGE_NAME=postgres:11.2
 
