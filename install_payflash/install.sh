@@ -36,13 +36,16 @@ cp $SCRIPT_DIR/HtmlPane.js /deploy/x4/ui/client/resources/sap/b/controls/panes
 
 ./setup_x4_service.sh 
 
+checkRetVal
+
 sed -i '35s#start#start >/var/log/payment/x4.log \&#' start_x4_service.sh
 
 ./start_x4_service.sh 
 
-sleep 10
+checkRetVal
 
-checkRetVal 
+echo -e "${red}Please go to brower open x4 to add 6 ilab button $Color_Off "
+sleep 100
 
 # Install payment service
 # Copy template java
