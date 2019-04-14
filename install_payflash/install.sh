@@ -40,6 +40,8 @@ checkRetVal
 
 sed -i '35s#start#start >/var/log/payment/x4.log \&#' start_x4_service.sh
 
+mkdir /var/log/payment
+
 ./start_x4_service.sh 
 
 checkRetVal
