@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -ex 
 ## Color renderin
 
 Color_Off='\e[0m';
