@@ -1,5 +1,7 @@
 #!/bin/bash
 set -ex 
+
+[[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
 ## Color renderin
 
 Color_Off='\e[0m';

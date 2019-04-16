@@ -2,11 +2,13 @@
 
 ## This script is for install postgres 11.2 on ubuntu 16.04 
 ## Need  install docker 
+
+[[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
+
 ## Color rendering
 Color_Off='\e[0m';
 # ---- High Intensity ----
 IRed='\e[0;91m';  IGreen='\e[0;92m';
-
 
 install_docker(){
 
