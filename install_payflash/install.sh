@@ -15,7 +15,7 @@ SQL="psql -h localhost -U postgres"
 ## Install dependency package
 
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
-apt-get install -y nodejs  maven  openjdk-8-jdk build-essential
+apt-get install -y nodejs  maven  openjdk-8-jdk build-essential unzip
 npm install -g @angular/cli  ## for angular ui  
 
 checkRetVal () {
