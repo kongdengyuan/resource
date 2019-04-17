@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ex 
-
+## check root user 
 [[ $EUID -ne 0 ]] && echo "Error: This script must be run as root!" && exit 1
 ## Color renderin
 
@@ -8,6 +8,7 @@ Color_Off='\e[0m';
 # ---- High Intensity ----
 Red='\e[0;91m';  Green='\e[0;92m';
 
+## ENV Settings
 SCRIPT_DIR=$(cd "$(dirname $0)"; pwd)
 CODE_DIR=/deploy/PayFlash
 SQL="psql -h localhost -U postgres"
@@ -16,7 +17,14 @@ SQL="psql -h localhost -U postgres"
 
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
 apt-get install -y nodejs  maven  openjdk-8-jdk build-essential unzip
-npm install -g @angular/cli  ## for angular ui  
+## install angular cli
+
+[ ! npm list -g @angular/cli | grep @angular &>/dev/null ] &&  npm install -g @angular/cli 
+
+## Pull code 
+cd $CODE_DIR/.. 
+[ ! -d PayFlash ] &&  git clone https://github.wdf.sap.corp/ilab/PayFlash.git
+[ ! -d x4 ] && git clone https://github.wdf.sap.corp/BIG/x4.git 
 
 checkRetVal () {
   if [ $? -ne 0 ]; then
@@ -42,18 +50,19 @@ checkRetVal
 
 sed -i '35s#start#start >/var/log/payment/x4.log \&#' start_x4_service.sh
 
-mkdir /var/log/payment
+[ ! -d /var/log/payment ] && mkdir /var/log/payment
 
 ./start_x4_service.sh 
 
 checkRetVal
 
 echo -e "${red}Please go to brower open x4 to add 6 ilab button $Color_Off "
-sleep 100
+
+sleep 120
 
 # Install payment service
 # Copy template java
-#cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
+cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
 cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
