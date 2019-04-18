@@ -85,9 +85,9 @@ sleep 120
 # Install payment service
 # Copy template java
 
-#cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
+cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
+cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
-#cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
 cd $CODE_DIR/PayFlash/payment-service
 
 $SQL  -c 'drop table "BYD"."pfPayment"'
@@ -98,7 +98,9 @@ mvn package
 
 checkRetVal
 
-#Install payment frontend
+# Install payment frontend
+
+cp  $SCRIPT_DIR/index.html $CODE_DIR/PayFlash/payment-frontend/src 
 
 cd  $CODE_DIR/PayFlash/payment-frontend
 
@@ -108,7 +110,8 @@ $SQL -c "\copy \"BYD\".\"ilab/paymentmgmt/PaymentAccount\" from '$SCRIPT_DIR/pay
 
 checkRetVal
 
+# start service 
+
 $SCRIPT_DIR/pay-frontend.sh start
- 
 $SCRIPT_DIR/pay-service.sh start 
 
