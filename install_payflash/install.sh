@@ -64,6 +64,8 @@ cd $CODE_DIR/PayFlash/payment-manager
 
 cp $SCRIPT_DIR/HtmlPane.js /deploy/x4/ui/client/resources/sap/b/controls/panes
 
+sed -i  '69a\export HTTPS_PORT=3999' $CODE_DIR/PayFlash/payment-manager/setup_x4_service.sh
+
 ./setup_x4_service.sh 
 
 checkRetVal
@@ -83,15 +85,14 @@ sleep 120
 # Install payment service
 # Copy template java
 
-cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/Payflash/payment-service/src/main/java/com/sap/sme/payment/service/impl
+#cp $SCRIPT_DIR/PaymentServiceImpl.java $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
 
-cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
-
-cd $CODE_DIR/Payflash/payment-service
+#cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/PayFlash/payment-service/src/main/java/com/sap/sme/payment/service/impl
+cd $CODE_DIR/PayFlash/payment-service
 
 $SQL  -c 'drop table "BYD"."pfPayment"'
 
-$SQL   --set ON_ERROR_STOP=ON -f  dbInit_PostgreSQL.sql 
+$SQL   --set ON_ERROR_STOP=ON -f  dbInit_PostgreSQL.sql
 
 mvn package 
 

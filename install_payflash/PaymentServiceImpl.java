@@ -24,6 +24,7 @@ import com.sap.sme.payment.api.domain.Currency;
 import com.sap.sme.payment.api.domain.Order;
 import com.sap.sme.payment.api.domain.Payment;
 import com.sap.sme.payment.api.domain.PaymentMethod;
+import com.sap.sme.payment.api.domain.Transaction;
 import com.sap.sme.payment.api.domain.User;
 import com.sap.sme.payment.api.util.CurrencyUtils;
 import com.sap.sme.payment.api.util.PaymentMethodUtils;
@@ -55,6 +56,9 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private TransactionService transactionService;
 
     @Autowired
     private EmailTemplateService emailTemplateService;
@@ -73,6 +77,24 @@ public class PaymentServiceImpl implements PaymentService {
             return null;
         }
 
+        Payment payment = mapToPayment(pfPayment);
+        normalizePaymentForQuery(payment);
+
+        return payment;
+    }
+    
+    @Override
+    public Long getId(String uuid) {
+        return pfPaymentDao.getByUuid(UUID.fromString(uuid)).getId();
+    }
+
+    @Override
+    public Payment getByOrderId(String orderId) {
+        List<PfPayment> pfPaymentList = pfPaymentDao.queryByOrderBusinessId(orderId);
+        if (CollectionUtils.isEmpty(pfPaymentList)) {
+            return null;
+        }
+        PfPayment pfPayment = pfPaymentList.get(0);
         Payment payment = mapToPayment(pfPayment);
         normalizePaymentForQuery(payment);
 
@@ -99,24 +121,27 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void updatePaymentStatusFromRemote(String paymentUuid) {
         PfPayment pfPayment = pfPaymentDao.getByUuid(UUID.fromString(paymentUuid));
+       
         if (pfPayment == null) {
             log.warn("Error update payment status from remote: Payment not exists. paymentUuid[", paymentUuid, "].");
             throw new BusinessException("Error update payment status from remote: Payment not exists. paymentUuid[", paymentUuid, "].");
         }
-
-        if (StringUtils.equals(pfPayment.getPaymentMethodList(), PaymentMethod.Type.ALIPAY)) {
+        String paymentMethod = transactionService.getByPaymentId(pfPayment.getId()).getPaymentMethod();
+        if (StringUtils.equals(paymentMethod, PaymentMethod.Type.ALIPAY)) {
             AlipayTradeQueryResponse alipayResponse = alipayService.queryTrade(
                     StringUtils.isNotBlank(pfPayment.getOrderBusinessId()) ? pfPayment.getOrderBusinessId() : pfPayment.getUuid().toString());
 
             if (StringUtils.equals(alipayResponse.getTradeStatus(), TradeStatus.TRADE_SUCCESS)) {
+            	pfPayment.setPaymentMethodList(PaymentMethod.Type.ALIPAY);
                 pfPayment.setStatus(Payment.Status.PAID);
                 pfPaymentDao.update(pfPayment);
             }
         }
 
-        if (StringUtils.equals(pfPayment.getPaymentMethodList(), PaymentMethod.Type.PAYFLOWLINK)) {
+        if (StringUtils.equals(paymentMethod, PaymentMethod.Type.PAYFLOWLINK)) {
             boolean resultpaid = payPalService.queryPayflowLinkPay(pfPayment.getUuid().toString());
             if (resultpaid == true) {
+                pfPayment.setPaymentMethodList(PaymentMethod.Type.PAYFLOWLINK);  
                 pfPayment.setStatus(Payment.Status.PAID);
                 pfPaymentDao.update(pfPayment);
             }
@@ -139,7 +164,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setUuid(uuid);
         payment.setStatus(Payment.Status.UNPAID);
 
-        payment.setUrl("https://payflash.kkops.cc/payment/" + uuid);
+        payment.setUrl("http://payflash.kkops.cc/payment/" + uuid);
 
         CurrencyUtils.normalize(payment);
         PaymentMethodUtils.normalize(payment);
@@ -156,7 +181,7 @@ public class PaymentServiceImpl implements PaymentService {
         email.setTo("kongdengyuan@gmail.com,dengyuan.kong@sap.com");
         email.setHtml(true);
         email.setSubject("Please pay your invoice");
-        String body = emailTemplateService.generateContent("PaymentReminder.ftl",payment);
+        String body = emailTemplateService.generateContenetWithDbTemplate(payment);
         email.setBody(body);
         email.setNeedToRetry(true);
         email.setRetryCount(3);
