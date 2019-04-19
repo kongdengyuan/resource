@@ -90,9 +90,11 @@ cp $SCRIPT_DIR/EmailServiceImpl.java  $CODE_DIR/PayFlash/payment-service/src/mai
 cd $CODE_DIR/PayFlash/payment-service
 
 $SQL  -c 'drop table "BYD"."pfPayment"'
+$SQL  -c 'drop table "BYD"."B1Orders"'
+$SQL  -c 'drop table "BYD"."B1DocumentLines"'
 
 $SQL   --set ON_ERROR_STOP=ON -f  dbInit_PostgreSQL.sql
-
+$SQL   --set ON_ERROR_STOP=ON -f mock_orderData.sql
 mvn package 
 
 checkRetVal

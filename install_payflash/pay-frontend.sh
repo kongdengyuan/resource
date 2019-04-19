@@ -30,8 +30,6 @@ else
 
   echo -e "${Red}Begin to start Payment-frontend service $Color_Off" 
 
-  mv $LOG_FILE ${LOG_FILE}_${DATE}.bak  
-
   cd $DIR && nohup  ng serve --disableHostCheck true  2>&1 &   
 
   sleep 6
