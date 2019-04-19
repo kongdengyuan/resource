@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex 
+set -x 
 ## This script is for install postgres 11.2 on ubuntu 16.04 
 ## Need  install docker 
 
@@ -15,8 +15,8 @@ NAME=postgres
 DATA_DIR=/pgdata
 PORT=5432
 PASSWD=abcd1234
-#IMAGE_NAME=registry.kkops.cc/postgres:v1
-IMAGE_NAME=postgres:11.2
+#IMAGE_NAME=registry.kkops.cc/postgres:dev
+IMAGE_NAME=postgres:dev
 PARA=$1
 
 
@@ -45,7 +45,7 @@ sudo apt-get install docker-ce=5:18.09.5~3-0~ubuntu-xenial -y
 }
 
 check_docker() {
-RET=`docker -v | grep "18.09" &>/dev/null`
+docker -v | grep "18.09" &>/dev/null
 
 if [ $? -eq 0 ];then 
   echo -e  "${IGreen}Docker_CE 18.09 already install and begin to install postgres $Color_Off"
@@ -62,11 +62,6 @@ docker run -d --name $NAME \
 -p $PORT:5432 \
 -v $DATA_DIR:/var/lib/postgresql/data \
 -e POSTGRES_PASSWORD=$PASSWD $IMAGE_NAME
-
-sleep 3
-
-sed -i '86s@127.0.0.1/32@0.0.0.0/0@' $DATA_DIR/pg_hba.conf
-docker restart $NAME
 
 if [ $? -eq 0 ]; then 
 

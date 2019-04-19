@@ -177,7 +177,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private EmailEntity normalizeEmailForSend(Payment payment){
         EmailEntity email = new EmailEntity();
-        email.setFrom("noreply@payflash.kkops.cc");
+        email.setFrom("noreply-payflash@kkops.cc");
         email.setTo("kongdengyuan@gmail.com,dengyuan.kong@sap.com");
         email.setHtml(true);
         email.setSubject("Please pay your invoice");

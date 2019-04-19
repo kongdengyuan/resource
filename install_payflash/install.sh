@@ -21,7 +21,7 @@ uninstall_service(){
 $SCRIPT_DIR/pay-frontend.sh stop
 $SCRIPT_DIR/pay-service.sh stop
 $SCRIPT_DIR/pay-manager.sh stop
-rm -r /deploy
+rm -r /deploy/PayFlash
 $SCRIPT_DIR/docker-postgres.sh uninstall
 
 }
@@ -45,7 +45,7 @@ apt-get install -y nodejs  maven  openjdk-8-jdk build-essential unzip
 [ ! -d $CODE_DIR  ] && mkdir $CODE_DIR
 cd $CODE_DIR 
 [ ! -d PayFlash ] &&  git clone https://github.wdf.sap.corp/ilab/PayFlash.git
-[ ! -d x4 ] && git clone https://github.wdf.sap.corp/BIG/x4.git 
+#[ ! -d x4 ] && git clone https://github.wdf.sap.corp/BIG/x4.git 
 
 checkRetVal () {
 if [ $? -ne 0 ]; then
@@ -58,7 +58,6 @@ fi
 }
 
 #Install x4
-$SQL -c 'create schema "BYD"'
 
 cd $CODE_DIR/PayFlash/payment-manager 
 
@@ -78,9 +77,9 @@ sed -i '35s#start#start >/var/log/payment/x4.log \&#' start_x4_service.sh
 
 checkRetVal
 
-echo -e "${red}Please go to brower open x4 to add 6 ilab button $Color_Off "
+echo -e "${red}Please go to brower open x4 to add 8 ilab button $Color_Off "
 
-sleep 120
+sleep 90
 
 # Install payment service
 # Copy template java
