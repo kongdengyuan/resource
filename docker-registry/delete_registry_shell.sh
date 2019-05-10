@@ -1,4 +1,7 @@
 #!/bin/bash
+## Modified by KONG DENGYUAN  
+## 当你删除不需要的镜像后，如果需要重新上传同样的tag 镜像 ，也许你需要重启docker registry ，清除缓存！ 
+## 需要修改 docker registry config.yml /etc/docker/registry/config.yml 重启生效
 
 for D in /mnt/registry/docker/registry/v2/repositories/*; do
 

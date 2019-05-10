@@ -1,7 +1,7 @@
 #!/bin/bash
-curl https://raw.githubusercontent.com/burnettk/delete-docker-registry-image/master/delete_docker_registry_image.py | sudo tee /usr/local/bin/delete_docker_registry_image >/dev/null
+#curl https://raw.githubusercontent.com/burnettk/delete-docker-registry-image/master/delete_docker_registry_image.py | sudo tee /usr/local/bin/delete_docker_registry_image >/dev/null
 
-chmod a+x /usr/local/bin/delete_docker_registry_image 
+#chmod a+x /usr/local/bin/delete_docker_registry_image 
 
 ## refrence  https://www.jianshu.com/p/cb3def675093
 
@@ -14,4 +14,4 @@ delete_docker_registry_image --image $i
 
 done 
 
-
+echo "Delete images success" 
