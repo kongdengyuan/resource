@@ -4,6 +4,7 @@ Usage:
 Shut down your registry service to avoid race conditions and possible data loss
 and then run the command with an image repo like this:
 delete_docker_registry_image.py --image awesomeimage --dry-run
+python3 delete-registry.py  --image selenium-chrome-debug --dry-run
 """
 
 import argparse
